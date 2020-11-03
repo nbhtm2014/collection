@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Szkj\\Rbac\\Providers\\CollectionServiceProvider"
+                "Szkj\\Collection\\Providers\\CollectionServiceProvider"
             ]
         }
     }
