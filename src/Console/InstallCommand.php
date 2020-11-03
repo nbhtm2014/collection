@@ -152,7 +152,7 @@ ETO;
                 $table->timestamps();
             });
         }
-        $this->initSeeder($this->platform['items'], $name);
+        $this->initSeeder($this->platform['items'], $name,'items');
     }
 
     /**
@@ -172,7 +172,7 @@ ETO;
                 $table->timestamps();
             });
         }
-        $this->initSeeder($this->platform['wechat'], $name);
+        $this->initSeeder($this->platform['wechat'], $name,'wechat');
     }
 
     /**
@@ -187,12 +187,13 @@ ETO;
     /**
      * @param array $insert
      * @param string $name
+     * @param string $tag
      */
-    public function initSeeder(array $insert, string $name): void
+    public function initSeeder(array $insert, string $name,string $tag): void
     {
         foreach ($insert as $k => $v) {
             if (!DB::connection($this->getConnection())->table('platforms')->where('id', $v['id'])->count()) {
-                $v['tag'] = $k;
+                $v['tag'] = $tag;
                 $v['cate'] = $name;
                 $v['created_at'] = now();
                 $v['updated_at'] = now();
