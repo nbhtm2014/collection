@@ -17,5 +17,12 @@
         "psr-4": {
             "Szkj\\Collection\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Szkj\\Rbac\\Providers\\CollectionServiceProvider"
+            ]
+        }
     }
 }
