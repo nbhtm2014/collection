@@ -41,7 +41,7 @@ class CollectionServiceProvider extends ServiceProvider
      */
     protected function registerPublishing()
     {
-        $this->publishes([__DIR__ . '/../config' => config_path()], 'szkj-collection-config');
+        $this->publishes([__DIR__ . '/../../config' => config_path()], 'szkj-collection-config');
     }
 
     /**

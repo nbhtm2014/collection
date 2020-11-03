@@ -93,6 +93,8 @@ ETO;
                 $this->service($v);
             }
         }
+        $config = $this->getStub('config');
+        $this->laravel['files']->put(config_path('').'szkj-collection.php', $config);
         $this->info('create tables is over');
     }
 
@@ -200,5 +202,17 @@ ETO;
                 DB::connection($this->getConnection())->table('platforms')->insert($v);
             }
         }
+    }
+
+    /**
+     * Get stub contents.
+     *
+     * @param $name
+     *
+     * @return string
+     */
+    protected function getStub($name)
+    {
+        return $this->laravel['files']->get(__DIR__."/stubs/$name.stub");
     }
 }
