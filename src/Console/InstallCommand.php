@@ -81,7 +81,23 @@ ETO;
             0,
             null,
             true);
-        $this->info('creating tables....');
+        /**
+         * create tables
+         */
+        $this->createTables($platforms);
+
+        /**
+         * move file
+         */
+        $this->createConfig();
+        $this->info('Done');
+
+    }
+
+    /**
+     * @param array $platforms
+     */
+    protected function createTables(array $platforms){
         foreach ($platforms as $k => $v) {
             if (hash_equals($v, '电商平台')) {
                 $this->items($v);
@@ -93,9 +109,6 @@ ETO;
                 $this->service($v);
             }
         }
-        $config = $this->getStub('config');
-        $this->laravel['files']->put(config_path('').'szkj-collection.php', $config);
-        $this->info('create tables is over');
     }
 
     /**
@@ -108,6 +121,7 @@ ETO;
          * create items table
          */
         if (!Schema::hasTable('items')) {
+            $this->info('create items table');
             Schema::create('items', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->integer('task_id')->default(0)->comment('任务id');
@@ -138,6 +152,7 @@ ETO;
          */
         if (!Schema::hasTable('shops')) {
             Schema::create('shops', function (Blueprint $table) {
+                $this->info('create shops table');
                 $table->bigIncrements('id');
                 $table->integer('platform_id')->comment('平台id');
                 $table->string('shop_id', 50)->comment('店铺id');
@@ -164,6 +179,7 @@ ETO;
     public function wechat(string $name): void
     {
         if (!Schema::hasTable('wechat')) {
+            $this->info('create wechat table');
             Schema::create('wechat', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->integer('task_id')->default(0)->comment('任务id');
@@ -193,6 +209,7 @@ ETO;
      */
     public function initSeeder(array $insert, string $name,string $tag): void
     {
+        $this->info('Seeder  platforms...');
         foreach ($insert as $k => $v) {
             if (!DB::connection($this->getConnection())->table('platforms')->where('id', $v['id'])->count()) {
                 $v['tag'] = $tag;
@@ -204,6 +221,16 @@ ETO;
         }
     }
 
+
+    /**
+     * @return void
+     */
+    protected function createConfig():void{
+        $this->info('move config');
+        $config = $this->getStub('config');
+        $this->laravel['files']->put(config_path().'/szkj-collection.php', $config);
+    }
+
     /**
      * Get stub contents.
      *
@@ -211,7 +238,7 @@ ETO;
      *
      * @return string
      */
-    protected function getStub($name)
+    protected function getStub($name) : string
     {
         return $this->laravel['files']->get(__DIR__."/stubs/$name.stub");
     }
