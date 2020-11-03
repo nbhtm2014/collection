@@ -27,6 +27,7 @@ class CollectionServiceProvider extends ServiceProvider
     {
         $this->registerMigrations();
         $this->registerPublishing();
+        $this->registerRoutes();
     }
 
     public function register()
@@ -49,5 +50,14 @@ class CollectionServiceProvider extends ServiceProvider
     public function registerMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+    }
+
+
+    /**
+     * 注册路由
+     */
+    public function registerRoutes()
+    {
+        $this->loadRoutesFrom(__DIR__ . '/../routes.php');
     }
 }
