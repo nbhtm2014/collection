@@ -25,6 +25,7 @@ class CollectionServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->registerMigrations();
         $this->registerPublishing();
     }
 
@@ -40,5 +41,13 @@ class CollectionServiceProvider extends ServiceProvider
     protected function registerPublishing()
     {
         $this->publishes([__DIR__ . '/../config' => config_path()], 'szkj-collection-config');
+    }
+
+    /**
+     * 表迁移
+     */
+    public function registerMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
     }
 }
