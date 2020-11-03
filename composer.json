@@ -1,0 +1,21 @@
+{
+    "name": "szkj\/collection",
+    "description": "Package description here.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nbhtm",
+            "email": "70140129@qq.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "laravel/framework": "~8.0",
+        "szkj/rbac": "9999999-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Szkj\\Collection\\": "src"
+        }
+    }
+}
