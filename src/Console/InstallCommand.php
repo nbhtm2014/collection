@@ -34,6 +34,20 @@ class InstallCommand extends Command
      */
     protected $directory = '';
 
+
+    public $platform = [
+        'items'  => [
+            ['id' => 1, 'name' => '天猫'],
+            ['id' => 2, 'name' => '淘宝'],
+            ['id' => 3, 'name' => '苏宁易购'],
+            ['id' => 4, 'name' => '京东'],
+            ['id' => 5, 'name' => '阿里巴巴'],
+        ],
+        'wechat' => [
+            ['id' => 15, 'name' => '微信公众号'],
+        ],
+    ];
+
     /**
      * @return string
      */
@@ -41,6 +55,7 @@ class InstallCommand extends Command
     {
         return config('database.default');
     }
+
 
     /**
      * Execute the console command.
@@ -59,8 +74,7 @@ class InstallCommand extends Command
 ETO;
         $this->info($log);
         if (!Schema::hasTable('platforms')) {
-            $this->error('Please run migrate!!');
-            die();
+            $this->call('migrate');
         }
         $platforms = $this->choice('请选择采集平台（多选请用逗号隔开,比如0,1,2）',
             ['电商平台', '微信公众号', '服务平台'],
@@ -73,20 +87,24 @@ ETO;
                 $this->items($v);
             }
             if (hash_equals($v, '微信公众号')) {
-                $this->wechat();
+                $this->wechat($v);
             }
             if (hash_equals($v, '服务平台')) {
-                $this->service();
+                $this->service($v);
             }
         }
+        $this->info('create tables is over');
     }
 
     /**
      * @param string $name
      * @return void
      */
-    public function items(string $name) : void
+    public function items(string $name): void
     {
+        /**
+         * create items table
+         */
         if (!Schema::hasTable('items')) {
             Schema::create('items', function (Blueprint $table) {
                 $table->bigIncrements('id');
@@ -108,27 +126,78 @@ ETO;
                 $table->string('nick', 255)->nullable();
                 $table->string('seller_id', 255)->nullable();
                 $table->string('classify', 255)->nullable()->comment('公司分类');
-
+                $table->string('item_url', 255)->nullable()->comment('商品链接');
                 $table->timestamps();
             });
         }
-        $insert = [
-            ['id' => 1, 'name' => '天猫', 'cate' => $name, 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 2, 'name' => '淘宝', 'cate' => $name, 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 3, 'name' => '苏宁易购', 'cate' => $name, 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 4, 'name' => '京东', 'cate' => $name, 'created_at' => now(), 'updated_at' => now()],
-            ['id' => 5, 'name' => '阿里巴巴', 'cate' => $name, 'created_at' => now(), 'updated_at' => now()],
-        ];
-        DB::connection($this->getConnection())->table('platforms')->insert($insert);
+
+        /**
+         * create shops table
+         */
+        if (!Schema::hasTable('shops')) {
+            Schema::create('shops', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->integer('platform_id')->comment('平台id');
+                $table->string('shop_id', 50)->comment('店铺id');
+                $table->string('name', 100)->comment('店铺名称');
+                $table->string('nick', 255)->nullable()->comment('昵称');
+                $table->string('shop_url', 255)->nullable()->comment('店铺链接');
+                $table->string('licence_url', 255)->nullable()->comment('执照链接');
+                $table->string('permit_url', 255)->nullable()->comment('许可证链接');
+                $table->string('credit_code', 255)->nullable()->comment('信用代码');
+                $table->string('company', 255)->nullable()->comment('公司名称');
+                $table->string('member_id', 255)->nullable();
+                $table->string('seller_id', 255)->nullable();
+                $table->string('item_user_id', 255)->nullable();
+                $table->timestamps();
+            });
+        }
+        $this->initSeeder($this->platform['items'], $name);
     }
 
-    public function wechat()
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function wechat(string $name): void
+    {
+        if (!Schema::hasTable('wechat')) {
+            Schema::create('wechat', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->integer('task_id')->default(0)->comment('任务id');
+                $table->string('wechat_id', 255)->nullable();
+                $table->string('wechat_nick', 255)->nullable();
+                $table->string('effect', 255)->nullable();
+                $table->string('company', 255)->nullable()->comment('公司名称');
+                $table->timestamps();
+            });
+        }
+        $this->initSeeder($this->platform['wechat'], $name);
+    }
+
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function service(string $name): void
     {
 
     }
 
-    public function service()
+    /**
+     * @param array $insert
+     * @param string $name
+     */
+    public function initSeeder(array $insert, string $name): void
     {
-
+        foreach ($insert as $k => $v) {
+            if (!DB::connection($this->getConnection())->table('platforms')->where('id', $v['id'])->count()) {
+                $v['tag'] = $k;
+                $v['cate'] = $name;
+                $v['created_at'] = now();
+                $v['updated_at'] = now();
+                DB::connection($this->getConnection())->table('platforms')->insert($v);
+            }
+        }
     }
 }
