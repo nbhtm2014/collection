@@ -170,6 +170,10 @@ class TaskController extends BaseController
 
     }
 
+    protected function service(){
+
+    }
+
     /**
      * @param array $body
      * @param array $store_array
