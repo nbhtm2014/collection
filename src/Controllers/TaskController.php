@@ -32,7 +32,11 @@ class TaskController extends BaseController
 
     public function index(Request $request)
     {
-        $data = Task::query()->paginate(15);
+        $data = Task::query()
+            ->when(!auth()->user()->superadmin,function ($query){
+                $query->where('user_id',auth()->user()->id);
+            })
+            ->paginate(15);
         return $this->response->paginator($data,new BaseTransformer());
     }
 
@@ -54,10 +58,23 @@ class TaskController extends BaseController
 
     /**
      * @param $id
+     * @return \Dingo\Api\Http\Response
      */
     public function show($id)
     {
-
+        $task = Task::query()->find($id);
+        /**
+         * @var Task $task
+         */
+        if ($task->type == 0 ){
+            $platform_tag = DB::connection( config('database.default'))
+                ->table('platforms')
+                ->where('id',$task->platform_id)
+                ->first();
+            return $this->success($platform_tag);
+        }else{
+            return $this->error(422,'该任务不是临时任务');
+        }
     }
 
     public function update(TaskUpdateRequest $request, $id)

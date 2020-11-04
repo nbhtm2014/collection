@@ -8,8 +8,16 @@ namespace Szkj\Collection\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Integer;
 use Szkj\Rbac\Traits\DateTimeFormatter;
 
+
+/**
+ * Class Task
+ * @property integer type
+ * @property mixed platform_id
+ * @package Szkj\Collection\Models
+ */
 class Task extends Model
 {
     use DateTimeFormatter;
