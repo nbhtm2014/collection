@@ -4,9 +4,11 @@
  * Created by 2020/11/3 16:44
  **/
 
-use Illuminate\Support\Facades\Route;
 use Szkj\Collection\Controllers\TaskController;
 
-Route::prefix('api/collection')->middleware(['auth:api', 'szkj.rbac'])->group(function () {
-    Route::apiResource('task', TaskController::class);
+$api = app('Dingo\Api\Routing\Router');
+$api->version(config('api.version'), ['middleware' => ['auth:api', 'szkj.rbac']], function ($api) {
+    $api->group(['prefix' => 'collection'], function ($api) {
+        $api->resource('task', TaskController::class);
+    });
 });

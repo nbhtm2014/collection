@@ -17,7 +17,7 @@ class Task extends Model
      * table name
      * @var string
      */
-    protected $table = 'task';
+    protected $table = 'tasks';
 
     /**
      * Create a new Eloquent model instance.
@@ -32,4 +32,6 @@ class Task extends Model
 
         parent::__construct($attributes);
     }
+
+    protected $guarded = [];
 }

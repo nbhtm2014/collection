@@ -53,7 +53,7 @@ class CreateCollectionTable extends Migration
             $table->integer('user_id')->comment('用户id');
             $table->tinyInteger('pull_status')->default(0)->comment('推送状态');
             $table->string('pcd',100)->comment('省市区');
-            $table->tinyInteger('type')->default(0)->comment('任务类型');
+            $table->tinyInteger('type')->default(0)->comment('任务类型 默认0临时任务，1月度任务');
             $table->string('system_id',255)->nullable()->comment('系统id');
             $table->string('es_id',255)->nullable()->comment('es_id');
 

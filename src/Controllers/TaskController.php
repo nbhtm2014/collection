@@ -11,12 +11,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use \Illuminate\Http\JsonResponse;
 use Szkj\Collection\Models\Task;
 use Szkj\Collection\Requests\Task\TaskStoreRequest;
 use Szkj\Collection\Requests\Task\TaskUpdateRequest;
 use Szkj\Rbac\Controllers\BaseController;
-use Szkj\Rbac\Exceptions\BadRequestExceptions;
 
 class TaskController extends BaseController
 {
@@ -28,18 +26,18 @@ class TaskController extends BaseController
     public function __construct()
     {
         $this->client = new Client();
-        $this->checkConfig();
         $this->host = config('szkj-collection.assignment-host');
     }
 
     public function index(Request $request)
     {
-
+        $data = Task::query()->paginate(15);
+        return $this->response->paginator($data);
     }
 
     /**
      * @param TaskStoreRequest $request
-     * @return JsonResponse
+     * @return \Dingo\Api\Http\Response
      * @throws GuzzleException
      */
     public function store(TaskStoreRequest $request)
@@ -108,6 +106,7 @@ class TaskController extends BaseController
     protected function items(array $validated): array
     {
         $pcd = explode(',', $validated['pcd']);
+        $keywords = explode(',', $validated['keywords']);
         return [
             "description" => $validated['title'],
             "title"       => $validated['title'],
@@ -120,7 +119,7 @@ class TaskController extends BaseController
                             "pcd"           => [
                                 "hint"  => "地区",
                                 "name"  => "pcd",
-                                "value" => array_values($pcd),
+                                "value" => [array_values($pcd)],
                             ],
                             "chkViolations" => [
                                 "hint"  => "是否检查违规",
@@ -130,7 +129,7 @@ class TaskController extends BaseController
                             "keyword"       => [
                                 "hint"  => "关键词",
                                 "name"  => "keyword",
-                                "value" => $validated['keywords'],
+                                "value" => $keywords,
                             ],
                             "platform"      => [
                                 "hint"  => "采集平台",
@@ -213,24 +212,5 @@ class TaskController extends BaseController
             return true;
         }
         return false;
-    }
-
-
-    protected function checkConfig(){
-        if (empty(config('szkj-collection.pcd.province'))){
-            throw new BadRequestExceptions(422,'请先配置地区');
-        }
-
-        if (empty(config('szkj-collection.elasticsearch-hosts'))){
-            throw new BadRequestExceptions(422,'请先配置ES地址');
-        }
-
-        if (empty(config('szkj-collection.assignment-host'))){
-            throw new BadRequestExceptions(422,'请先配置采集服务器地址');
-        }
-
-        if (empty(config('szkj-collection.rabbitmq.data-push-queue'))){
-            throw new BadRequestExceptions(422,'请先配置数据推送队列');
-        }
     }
 }

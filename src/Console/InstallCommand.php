@@ -76,6 +76,7 @@ ETO;
         if (!Schema::hasTable('platforms')) {
             $this->call('migrate');
         }
+        $this->call("vendor:publish --provider='Dingo\Api\Provider\LaravelServiceProvider'");
         $platforms = $this->choice('请选择采集平台（多选请用逗号隔开,比如0,1,2）',
             ['电商平台', '微信公众号', '服务平台'],
             0,
