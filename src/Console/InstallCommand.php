@@ -90,7 +90,7 @@ ETO;
          * move file
          */
         $this->createConfig();
-        $this->info('Done');
+        $this->info('Done.');
 
     }
 
@@ -209,7 +209,7 @@ ETO;
      */
     public function initSeeder(array $insert, string $name,string $tag): void
     {
-        $this->info('Seeder  platforms...');
+        $this->info('Seeder platforms...');
         foreach ($insert as $k => $v) {
             if (!DB::connection($this->getConnection())->table('platforms')->where('id', $v['id'])->count()) {
                 $v['tag'] = $tag;
