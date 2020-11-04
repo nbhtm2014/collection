@@ -60,8 +60,7 @@ class TaskController extends BaseController
      * @param $id
      * @return \Dingo\Api\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id){
         $task = Task::query()->find($id);
         /**
          * @var Task $task
