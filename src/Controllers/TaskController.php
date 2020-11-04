@@ -15,6 +15,7 @@ use Szkj\Collection\Models\Task;
 use Szkj\Collection\Requests\Task\TaskStoreRequest;
 use Szkj\Collection\Requests\Task\TaskUpdateRequest;
 use Szkj\Rbac\Controllers\BaseController;
+use Szkj\Rbac\Transformers\BaseTransformer;
 
 class TaskController extends BaseController
 {
@@ -32,7 +33,7 @@ class TaskController extends BaseController
     public function index(Request $request)
     {
         $data = Task::query()->paginate(15);
-        return $this->response->paginator($data);
+        return $this->response->paginator($data,new BaseTransformer());
     }
 
     /**
