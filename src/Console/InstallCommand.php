@@ -18,7 +18,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'szkj:collection-install';
+    protected $signature = 'szkj:install';
 
     /**
      * The console command description.
