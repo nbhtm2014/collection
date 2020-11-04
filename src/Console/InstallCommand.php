@@ -76,7 +76,9 @@ ETO;
         if (!Schema::hasTable('platforms')) {
             $this->call('migrate');
         }
-        $this->call("vendor:publish --provider='Dingo\Api\Provider\LaravelServiceProvider'");
+        $this->call('vendor:publish',
+            ["--provider" => "Dingo\Api\Provider\LaravelServiceProvider"]
+        );
         $platforms = $this->choice('请选择采集平台（多选请用逗号隔开,比如0,1,2）',
             ['电商平台', '微信公众号', '服务平台'],
             0,
@@ -98,7 +100,8 @@ ETO;
     /**
      * @param array $platforms
      */
-    protected function createTables(array $platforms){
+    protected function createTables(array $platforms)
+    {
         foreach ($platforms as $k => $v) {
             if (hash_equals($v, '电商平台')) {
                 $this->items($v);
@@ -170,7 +173,7 @@ ETO;
                 $table->timestamps();
             });
         }
-        $this->initSeeder($this->platform['items'], $name,'items');
+        $this->initSeeder($this->platform['items'], $name, 'items');
     }
 
     /**
@@ -191,7 +194,7 @@ ETO;
                 $table->timestamps();
             });
         }
-        $this->initSeeder($this->platform['wechat'], $name,'wechat');
+        $this->initSeeder($this->platform['wechat'], $name, 'wechat');
     }
 
     /**
@@ -208,7 +211,7 @@ ETO;
      * @param string $name
      * @param string $tag
      */
-    public function initSeeder(array $insert, string $name,string $tag): void
+    public function initSeeder(array $insert, string $name, string $tag): void
     {
         $this->info('Seeder platforms...');
         foreach ($insert as $k => $v) {
@@ -226,10 +229,11 @@ ETO;
     /**
      * @return void
      */
-    protected function createConfig():void{
+    protected function createConfig(): void
+    {
         $this->info('move config');
         $config = $this->getStub('config');
-        $this->laravel['files']->put(config_path().'/szkj-collection.php', $config);
+        $this->laravel['files']->put(config_path() . '/szkj-collection.php', $config);
     }
 
     /**
@@ -239,8 +243,8 @@ ETO;
      *
      * @return string
      */
-    protected function getStub($name) : string
+    protected function getStub($name): string
     {
-        return $this->laravel['files']->get(__DIR__."/stubs/$name.stub");
+        return $this->laravel['files']->get(__DIR__ . "/stubs/$name.stub");
     }
 }
