@@ -236,6 +236,12 @@ ETO;
         $this->laravel['files']->put(config_path() . '/szkj-collection.php', $config);
     }
 
+    protected function createModels() : void{
+        $this->info('move models');
+        $model = $this->getStub('Models/Task');
+        $this->laravel['files']->put(app_path() . '/Models', $model);
+    }
+
     /**
      * Get stub contents.
      *
