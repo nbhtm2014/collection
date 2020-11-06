@@ -93,6 +93,7 @@ ETO;
          * move file
          */
         $this->createConfig();
+        $this->createModels();
         $this->info('Done.');
 
     }
@@ -236,6 +237,9 @@ ETO;
         $this->laravel['files']->put(config_path() . '/szkj-collection.php', $config);
     }
 
+    /**
+     * @return void
+     */
     protected function createModels() : void{
         $this->info('move models');
         $model = $this->getStub('Models/Task');
