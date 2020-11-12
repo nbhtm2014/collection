@@ -8,19 +8,17 @@ namespace Szkj\Collection\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\Integer;
-use Szkj\Rbac\Traits\DateTimeFormatter;
-
 
 /**
- * Class Task
- * @property integer type
+ * @property mixed system_id
+ * @property mixed status
  * @property mixed platform_id
+ * @property mixed type
+ * Class Task
  * @package Szkj\Collection\Models
  */
 class Task extends Model
 {
-    use DateTimeFormatter;
     /**
      * table name
      * @var string
@@ -42,4 +40,14 @@ class Task extends Model
     }
 
     protected $guarded = [];
+
+
+    /**
+     * @param \DateTimeInterface $date
+     * @return string
+     */
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 }

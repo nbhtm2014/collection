@@ -25,33 +25,15 @@ class CollectionServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerMigrations();
-        $this->registerPublishing();
-        $this->registerRoutes();
+
     }
 
     public function register()
     {
+        $this->registerRoutes();
+
         $this->commands($this->commands);
     }
-
-    /**
-     *
-     * @return void
-     */
-    protected function registerPublishing()
-    {
-        $this->publishes([__DIR__ . '/../../config' => config_path()], 'szkj-collection-config');
-    }
-
-    /**
-     * 表迁移
-     */
-    public function registerMigrations()
-    {
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-    }
-
 
     /**
      * 注册路由

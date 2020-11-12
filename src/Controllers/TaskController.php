@@ -27,7 +27,7 @@ class TaskController extends BaseController
     public function __construct()
     {
         $this->client = new Client();
-        $this->host = config('szkj-collection.assignment-host');
+        $this->host = config('szkj.assignment-host');
     }
 
     public function index(Request $request)
@@ -113,7 +113,7 @@ class TaskController extends BaseController
     protected function assignment(array $array): array
     {
         $tag = DB::connection(config('database.default'))->table('platforms')->where('id', $array['platform_id'])->first()->tag;
-        return $this->$tag($array);
+        return $this->{$tag}($array);
     }
 
     /**
