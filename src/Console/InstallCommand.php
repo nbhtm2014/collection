@@ -53,6 +53,8 @@ class InstallCommand extends Command
 
         $this->createControllers();
 
+        $this->createRequests();
+
         $this->info('Done.');
     }
 
@@ -61,7 +63,7 @@ class InstallCommand extends Command
      */
     protected function createModels() : void{
         $files = [];
-        $this->listDir(__DIR__.'/../../Stubs/Models', $files);
+        $this->listDir(__DIR__.'/../Stubs/Models', $files);
         foreach ($files as $file) {
             $dir = basename(dirname($file));
 
@@ -90,9 +92,9 @@ class InstallCommand extends Command
      */
     protected function createControllers() : void{
         $files = [];
-        $this->listDir(__DIR__.'/../../Stubs/Controllers', $files);
+        $this->listDir(__DIR__.'/../Stubs/Controllers', $files);
         foreach ($files as $file) {
-            $this->makeDir('Http/Controllers/Rbac');
+            $this->makeDir('Http/Controllers/Task');
 
             $filename = pathinfo($file, PATHINFO_FILENAME);
 
@@ -130,7 +132,7 @@ class InstallCommand extends Command
     protected function createRequests() : void{
         $this->makeDir('Http/Requests');
         $files = [];
-        $this->listDir(__DIR__.'/../../Stubs/Requests', $files);
+        $this->listDir(__DIR__.'/../Stubs/Requests', $files);
         foreach ($files as $file) {
             $dir = basename(dirname($file));
 
@@ -167,7 +169,7 @@ class InstallCommand extends Command
      */
     protected function getStub($name): string
     {
-        return $this->laravel['files']->get(__DIR__ . "/../../Stubs/$name.stub");
+        return $this->laravel['files']->get(__DIR__ . "/../Stubs/$name.stub");
     }
 
     /**
