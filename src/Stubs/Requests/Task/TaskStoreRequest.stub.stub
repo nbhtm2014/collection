@@ -4,10 +4,10 @@
  * Created by 2020/11/3 16:49
  **/
 
-namespace Szkj\Collection\Requests\Task;
+namespace DummyNamespace;
 
 
-use Szkj\Rbac\Requests\BaseRequest;
+DummyUseNamespace;
 
 class TaskStoreRequest extends BaseRequest
 {

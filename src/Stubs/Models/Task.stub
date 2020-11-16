@@ -4,7 +4,7 @@
  * Created by 2020/11/3 16:46
  **/
 
-namespace Szkj\Collection\Models;
+namespace DummyNamespace;
 
 
 use Illuminate\Database\Eloquent\Model;

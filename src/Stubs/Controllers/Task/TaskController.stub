@@ -4,17 +4,17 @@
  * Created by 2020/11/3 16:42
  **/
 
-namespace Szkj\Collection\Controllers;
+namespace DummyNamespace;
 
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Szkj\Collection\Models\Task;
-use Szkj\Collection\Requests\Task\TaskStoreRequest;
-use Szkj\Rbac\Controllers\BaseController;
-use Szkj\Rbac\Transformers\BaseTransformer;
+DummyModelNamespace;
+DummyRequestsNamespace;
+DummyControllerNamespace;
+DummyTransformersNamespace;
 
 class TaskController extends BaseController
 {
