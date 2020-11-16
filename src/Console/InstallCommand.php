@@ -167,7 +167,7 @@ class InstallCommand extends Command
      */
     protected function getStub($name): string
     {
-        return $this->laravel['files']->get(__DIR__ . "/../Stubs/$name.stub");
+        return $this->laravel['files']->get(__DIR__ . "/../../Stubs/$name.stub");
     }
 
     /**
