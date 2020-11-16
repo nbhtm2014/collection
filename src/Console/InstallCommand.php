@@ -121,7 +121,7 @@ class InstallCommand extends Command
                 $controller,
                 str_replace(
                     ['DummyNamespace', 'DummyControllerNamespace','DummyTransformersNamespace','DummyModelNamespace','DummyRequestsNamespace'],
-                    ['App\\Http\\Controllers\\Rbac', $use_base_controller,$use_transformer,$use_model,$use_request],
+                    ['App\\Http\\Controllers\\Task', $use_base_controller,$use_transformer,$use_model,$use_request],
                     $stub_controller
                 )
             );
