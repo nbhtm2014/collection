@@ -4,7 +4,7 @@
  * Created by 2020/11/3 16:42
  **/
 
-namespace Szkj\Collection\Controllers;
+namespace Szkj\Collection\Controllers\Task;
 
 
 use GuzzleHttp\Client;
