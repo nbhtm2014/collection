@@ -51,9 +51,9 @@ class InstallCommand extends Command
     {
         $this->createModels();
 
-        $this->createControllers();
-
         $this->createRequests();
+
+        $this->createControllers();
 
         $this->info('Done.');
     }
@@ -114,7 +114,7 @@ class InstallCommand extends Command
                 ? 'use App\\Models\\Task'
                 : 'use Szkj\\Collection\\Models\\Task';
 
-            $use_request = file_exists(app_path('Http/Request/Task/TaskStoreRequest.php'))
+            $use_request = file_exists(app_path('Http/Requests/Task/TaskStoreRequest.php'))
                 ? 'use App\\Requests\\Task\TaskStoreRequest'
                 : 'use Szkj\\Collection\\Requests\\Task\\TaskStoreRequest';
             $this->laravel['files']->put(
