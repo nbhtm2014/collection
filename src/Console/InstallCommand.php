@@ -115,7 +115,7 @@ class InstallCommand extends Command
                 : 'use Szkj\\Collection\\Models\\Task';
 
             $use_request = file_exists(app_path('Http/Requests/Task/TaskStoreRequest.php'))
-                ? 'use App\\Requests\\Task\TaskStoreRequest'
+                ? 'use App\\Http\\Requests\\Task\TaskStoreRequest'
                 : 'use Szkj\\Collection\\Requests\\Task\\TaskStoreRequest';
             $this->laravel['files']->put(
                 $controller,
