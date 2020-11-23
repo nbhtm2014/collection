@@ -8,6 +8,7 @@ namespace Szkj\Collection\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property mixed system_id
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Task extends Model
 {
+    use SoftDeletes;
     /**
      * table name
      * @var string
